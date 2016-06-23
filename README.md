@@ -9,3 +9,13 @@ npm i -g tweeties
 ```
 tweeties
 ```
+
+# Contribute
+
+Feel free to join in. All welcome. Open an issue!
+
+Or :
+
+```
+git checkout -b feature/awesomeFeature
+```

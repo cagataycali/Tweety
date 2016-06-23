@@ -77,7 +77,6 @@ function hello(name) {
   vorpal
     .command('stream [strings...]')
     .description('Stream for selected parameters')
-    .alias('search')
     .action(function(args, callback) {
       var stream = T.stream('statuses/filter', { track: args.strings })
       var table = new Table({
@@ -96,36 +95,31 @@ function hello(name) {
       // callback();
     });
 
+    vorpal
+    .mode('tweet')
+    .delimiter(emoji.emojify(':eyes:  '))
+    .init(function(args, callback){
+      console.log(' \t Write your tweet\n \t Feel free dude.. \n \t To exit, type `exit`.');
+      callback();
+    })
+    .action(function(command, callback) {
+      T.post('statuses/update', { status: command }, function(err, data, response) {
+        console.log('Your tweet has gone!');
+         callback();
+      })
+    })
+
+      // .command('tweet')
+      // .description('New tweet')
+      // .action(function(args, callback) {
+      //   console.log(args);
+      //
+
+      // });
+
 
   vorpal
     .delimiter(emoji.emojify(':computer:  >_'))
     .show();
 
 }
-
-// var Twitter = require('twitter');
-// var Table = require('cli-table');
-// var ProgressBar = require('progress');
-//
-// var barOpts = {
-//    width: 20,
-//    total: 100,
-//    clear: true
-//  };
-//  var bar = new ProgressBar(' uploading [:bar] :percent :etas', barOpts);
-//
-//
-// setInterval(function(){ bar.tick(1); }, 3000);
-//
-
-//
-// var params = {screen_name: 'nodejs'};
-// client.get('statuses/user_timeline', params, function(error, tweets, response){
-//   if (!error) {
-//     console.log(tweets);
-//   }
-// });
-//
-
-
-//
