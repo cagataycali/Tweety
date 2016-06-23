@@ -9,7 +9,6 @@ var emoji = require('node-emoji');
 var fs = require('fs');
 var Table = require('cli-table');
 
-console.log(emoji.emojify('Created with :heart:  in :flag-tr:!')); // replaces all :emoji: with the actual emoji, in this case: returns "I ❤️ ☕️!"
 
 fs.writeFile('config.json', '{}', { flag: 'wx' }, function (err) {});
 
