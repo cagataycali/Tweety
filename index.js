@@ -7,6 +7,7 @@ var Twit = require('twit');
 var vorpal = require('vorpal')();
 var emoji = require('node-emoji');
 var fs = require('fs');
+var Table = require('cli-table');
 
 console.log(emoji.emojify('Created with :heart:  in :flag-tr:!')); // replaces all :emoji: with the actual emoji, in this case: returns "I ❤️ ☕️!"
 
@@ -65,18 +66,34 @@ if(!nconf.get('username')) {
 function hello(name) {
   console.log('Hello' + " " + name.rainbow);
 
+
+  var T = new Twit({
+    consumer_key:         nconf.get('consumer_key'),
+    consumer_secret:      nconf.get('consumer_secret'),
+    access_token:         nconf.get('access_token_key'),
+    access_token_secret:  nconf.get('access_token_secret'),
+    timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+  });
   vorpal
-    .command('search [strings...] [optionalArg]')
-    .option('-l, --language', 'Language based search example: en, tr, fr')
-    .description('Search parameters')
+    .command('stream [strings...]')
+    .description('Stream for selected parameters')
     .alias('search')
     .action(function(args, callback) {
-      if (args.options.language) {
-        this.log('language');
-        console.log(args.options.language[0]);
-      }
-      console.log(args.strings);
-      callback();
+      var stream = T.stream('statuses/filter', { track: args.strings })
+      var table = new Table({
+        chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+               , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+               , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+               , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
+      });
+      stream.on('tweet', function (tweet) {
+
+        table.push(
+            [tweet.user.name, tweet.text.slice(0,9), tweet.retweet_count, tweet.favorite_count]
+        );
+        console.log(table.toString());
+      });
+      // callback();
     });
 
 
@@ -109,19 +126,6 @@ function hello(name) {
 //   }
 // });
 //
-// var table = new Table({
-//   chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
-//          , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
-//          , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
-//          , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
-// });
-//
-// table.push(
-//     ['foo'.rainbow, 'bar'.rainbow, 'baz'.rainbow, 'baz'.rainbow, 'baz'.rainbow]
-//   , ['frob'.rainbow, 'bar'.rainbow, 'quuz'.rainbow, 'baz'.rainbow, 'baz'.rainbow]
-// );
-//
-// console.log(table.toString());
-// console.log('ç²'.random);
+
 
 //
