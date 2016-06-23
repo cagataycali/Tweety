@@ -76,6 +76,7 @@ function hello(name) {
   });
   vorpal
     .command('stream [strings...]')
+    .option('-s, --save', 'Save tweets in config file')
     .description('Stream for selected parameters')
     .action(function(args, callback) {
       var stream = T.stream('statuses/filter', { track: args.strings })
@@ -86,15 +87,24 @@ function hello(name) {
                , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
       });
       stream.on('tweet', function (tweet) {
-
+        if (args.options.save) {
+          nconf.set('tweets:', tweet); // TODO : fix override.
+        }
         table.push(
             [tweet.user.name, tweet.text.slice(0,9), tweet.retweet_count, tweet.favorite_count]
         );
         console.log(table.toString());
       });
       // callback();
-    });
-
+    })
+    .cancel(function () {  // TODO : fix override.
+        nconf.save(function (err) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+        });
+      });
     vorpal
     .mode('tweet')
     .delimiter(emoji.emojify(':eyes:  '))
