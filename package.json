@@ -1,5 +1,5 @@
 {
-  "name": "tweety",
+  "name": "tweeties",
   "version": "1.0.0",
   "description": "CLI twitter search tool",
   "main": "index.js",
