@@ -3,7 +3,7 @@ npm-debug.log*
 pids
 *.pid
 *.seed
-config.json
+
 
 lib-cov
 
