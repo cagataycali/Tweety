@@ -6,12 +6,11 @@ var prompt = require('co-prompt');
 var Twit = require('twit');
 var vorpal = require('vorpal')();
 var emoji = require('node-emoji');
-var fs = require('fs');
 var Table = require('cli-table');
 
-
-// fs.writeFile('config.json', '{ }', { flag: 'wx' }, function (err) {});
-
+/*
+  Load config file
+*/
 nconf.use('file', { file: './config.json' });
 nconf.load();
 
@@ -43,10 +42,9 @@ if(!nconf.get('username')) {
       console.log('caught error', err.stack)
     })
     .then(function (result) {
-      console.log('data', result.data);
       nconf.set('user', result.data);
       nconf.set('username', result.data.name);
-
+      /* Save config */
       nconf.save(function (err) {
         if (err) {
           console.error(err.message);
@@ -56,7 +54,6 @@ if(!nconf.get('username')) {
         hello(nconf.get('username'));
       });
     })
-
   });
 } else {
   hello(nconf.get('username'));
@@ -65,7 +62,6 @@ if(!nconf.get('username')) {
 function hello(name) {
   console.log('Hello' + " " + name.rainbow);
 
-
   var T = new Twit({
     consumer_key:         nconf.get('consumer_key'),
     consumer_secret:      nconf.get('consumer_secret'),
@@ -73,62 +69,74 @@ function hello(name) {
     access_token_secret:  nconf.get('access_token_secret'),
     timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
   });
-  vorpal
-    .command('stream [strings...]')
-    .option('-s, --save', 'Save tweets in config file')
-    .description('Stream for selected parameters')
-    .action(function(args, callback) {
-      var stream = T.stream('statuses/filter', { track: args.strings })
-      var table = new Table({
-        chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
-               , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
-               , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
-               , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
-      });
-      stream.on('tweet', function (tweet) {
-        if (args.options.save) {
-          nconf.set('tweets:', tweet); // TODO : fix override.
+
+  // TODO : seperate commands.
+
+vorpal
+  .command('stream [strings...]')  // strings = [ '1', '2', '3'];
+  .option('-s, --save', 'Save tweets in config file')
+  .description('Stream for selected parameters')
+  .action(function(args, callback) {
+    var stream = T.stream('statuses/filter', { track: args.strings })
+    var table = new Table({
+      chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+             , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+             , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+             , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
+    });
+    stream.on('tweet', function (tweet) {
+      if (args.options.save) {
+        nconf.set('tweets:', tweet); // TODO : fix override.
+      }
+      table.push(
+          [tweet.user.name, tweet.text.slice(0,40), tweet.retweet_count, tweet.favorite_count]
+      );
+      console.log(table.toString());
+    });
+    // callback();
+  })
+  .cancel(function () {  // TODO : fix override.
+      nconf.save(function (err) {
+        if (err) {
+          console.error(err.message);
+          return;
         }
-        table.push(
-            [tweet.user.name, tweet.text.slice(0,9), tweet.retweet_count, tweet.favorite_count]
-        );
-        console.log(table.toString());
       });
-      // callback();
-    })
-    .cancel(function () {  // TODO : fix override.
-        nconf.save(function (err) {
-          if (err) {
-            console.error(err.message);
-            return;
-          }
-        });
-      });
-    vorpal
-    .mode('tweet')
-    .delimiter(emoji.emojify(':eyes:  '))
-    .init(function(args, callback){
-      console.log(' \t Write your tweet\n \t Feel free dude.. \n \t To exit, type `exit`.');
+    });
+
+vorpal
+  .mode('tweet')
+  .delimiter('?>  ')
+  .init(function(args, callback){
+    console.log(' \t Write your tweet\n \t Feel free dude.. \n \t To exit, type `exit`.');
+    callback();
+  })
+  .action(function(command, callback) {
+    T.post('statuses/update', { status: command }, function(err, data, response) {
+      console.log('Your tweet has gone!');
       callback();
-    })
-    .action(function(command, callback) {
-      T.post('statuses/update', { status: command }, function(err, data, response) {
-        console.log('Your tweet has gone!');
-         callback();
       })
+    });
+
+    // TODO : search
+    // TODO : user followers ( who is follow me/other guy? )
+    //
+    /*
+    T.get('followers/ids', { screen_name: 'c2' },  function (err, data, response) {
+      console.log(data)
     })
+    */
+    // TODO : img & video upload
+    // TODO : post direct message
+    // TODO : follow user by screen_name
+    // TODO : handle events. ( Anybody message me? Follow me? Like my tweet ? Mentioned ? ) *
+    // TODO : read inbox *
+    // TODO : send mail *
+    // TODO : spawn process may be impossible ?
+    // TODO : bot mode. -f -dm -l ( Follow, direct message, fav tweet)
 
-      // .command('tweet')
-      // .description('New tweet')
-      // .action(function(args, callback) {
-      //   console.log(args);
-      //
-
-      // });
-
-
-  vorpal
-    .delimiter(emoji.emojify(':computer:  >_'))
-    .show();
+vorpal
+  .delimiter(emoji.emojify(':computer:  >_'))
+  .show();
 
 }
