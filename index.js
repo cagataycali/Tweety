@@ -10,9 +10,9 @@ var fs = require('fs');
 var Table = require('cli-table');
 
 
-fs.writeFile('config.json', '{ }', { flag: 'wx' }, function (err) {});
+// fs.writeFile('config.json', '{ }', { flag: 'wx' }, function (err) {});
 
-nconf.use('file', { file: 'config.json' });
+nconf.use('file', { file: './config.json' });
 nconf.load();
 
 if(!nconf.get('username')) {
