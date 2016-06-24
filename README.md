@@ -1,4 +1,4 @@
-# Insalling
+# Installing
 
 ```
 npm i -g tweeties
