@@ -169,6 +169,64 @@ vorpal.command('dm', 'Send direct message')
     });
   });
 
+  // TODO POST VIDEO :
+
+  // T.postMediaChunked({ file_path: fileAbsoluteName }, function (err, data, response) {
+  //         if (!err || data === 'undefined') {
+  //           console.log(data)
+  //           // Lets tweet it
+  //           var status = {
+  //             status: params.status,
+  //             media_ids: data.media_id_string // Pass the media id string
+  //           }
+  //
+  //           client.post('statuses/update', status, function(error, tweet, response) {
+  //             if (!error) {
+  //               console.log(tweet);
+  //             } else {
+  //               console.log(error);
+  //               fs.unlink(fileAbsoluteName, () => { // Delete item.
+  //                 console.log(`${fileAbsoluteName} deleted successfully.`);
+  //               });
+  //             }
+  //           });
+  //         } else {
+  //           console.log(err);
+  //           fs.unlink(fileAbsoluteName, () => { // Delete item.
+  //             console.log(`${fileAbsoluteName} deleted successfully.`);
+  //           });
+  //         }
+  //       });
+
+  // TODO POST VIDEO :
+
+
+  // TODO POST IMG
+// var b64content = fs.readFileSync('/path/to/img', { encoding: 'base64' })
+//
+// // first we must post the media to Twitter
+// T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+//   // now we can assign alt text to the media, for use by screen readers and
+//   // other text-based presentations and interpreters
+//   var mediaIdStr = data.media_id_string
+//   var altText = "Small flowers in a planter on a sunny balcony, blossoming."
+//   var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+//
+//   T.post('media/metadata/create', meta_params, function (err, data, response) {
+//     if (!err) {
+//       // now we can reference the media and post a tweet (media will attach to the tweet)
+//       var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] }
+//
+//       T.post('statuses/update', params, function (err, data, response) {
+//         console.log(data)
+//       })
+//     }
+//   })
+// })
+
+// TODO POST IMG
+
+
     // TODO : search
     // TODO : user followers ( who is follow me/other guy? )
     //
@@ -177,10 +235,8 @@ vorpal.command('dm', 'Send direct message')
       console.log(data)
     })
     */
-    // TODO : img & video upload
     // TODO : handle events. ( Anybody message me? Follow me? Like my tweet ? Mentioned ? ) *
     // TODO : read inbox *
-    // TODO : send mail *
     // TODO : spawn process may be impossible ?
     // TODO : bot mode. -f -dm -l ( Follow, direct message, fav tweet)
 
