@@ -169,6 +169,42 @@ vorpal.command('dm', 'Send direct message')
     });
   });
 
+  vorpal.command('stream-dm', 'Send direct message if someone is in?')
+    .action(function (args, callback) {
+      var self = this;
+
+      var promise = this.prompt([
+        {
+          type: 'input',
+          name: 'target',
+          message: emoji.emojify(':dart: Target:') // dart
+        },
+        {
+          type: 'input',
+          name: 'text',
+          message: emoji.emojify(':speech_balloon: Content:') // speech_balloon
+        }
+      ], function (answers) {
+        // You can use callbacks...
+      });
+
+      promise.then(function(command) {
+
+          var stream = T.stream('statuses/filter', { track: command.target })
+          stream.on('tweet', function (tweet) {
+            T.post('direct_messages/new', {screen_name:tweet.user.name, text: command.text}, function(err, data, response) {
+              if (err) {
+                console.error(err.message.underline.red);
+              } else {
+                console.log(emoji.emojify('Piyuuv :postbox:')); // postbox
+              }
+              callback();
+              })
+          });
+
+      });
+    });
+
   // TODO POST VIDEO :
 
   // T.postMediaChunked({ file_path: fileAbsoluteName }, function (err, data, response) {
