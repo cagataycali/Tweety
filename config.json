@@ -1,3 +1,67 @@
 {
-  
+  "consumer_key": "aNJOJflsSDK1UmQsoIILcg0c3",
+  "consumer_secret": "3DGvHZhfxTnef0oaxmXiOoegUl2d0GiFC5BKE2uKPHRWOA1HM1",
+  "access_token_key": "253100472-XudSLV96JVkSbCzKRe35weiWgoqSjMoaFuP43q9d",
+  "access_token_secret": "2DrStsbE6kSO2QOx9TgHSRikvIGUvh5u0apSAOllFZwWv",
+  "user": {
+    "id": 253100472,
+    "id_str": "253100472",
+    "name": "Çağatay Çalı",
+    "screen_name": "CagatayCali",
+    "location": "IZMIR / ÇEŞME - PAÜ",
+    "description": "Windsurf Instructor - MovieLaLa - calicagatay@icloud.com / 24.9.14",
+    "url": "https://t.co/0sqjYtBtyo",
+    "entities": {
+      "url": {
+        "urls": [
+          {
+            "url": "https://t.co/0sqjYtBtyo",
+            "expanded_url": "http://www.cagataycali.xyz",
+            "display_url": "cagataycali.xyz",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      },
+      "description": {
+        "urls": []
+      }
+    },
+    "protected": false,
+    "followers_count": 1685,
+    "friends_count": 255,
+    "listed_count": 2,
+    "created_at": "Wed Feb 16 15:16:01 +0000 2011",
+    "favourites_count": 1059,
+    "utc_offset": -18000,
+    "time_zone": "Quito",
+    "geo_enabled": true,
+    "verified": false,
+    "statuses_count": 446,
+    "lang": "tr",
+    "contributors_enabled": false,
+    "is_translator": false,
+    "is_translation_enabled": false,
+    "profile_background_color": "C0DEED",
+    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_tile": false,
+    "profile_image_url": "http://pbs.twimg.com/profile_images/624648641337290752/AAxgruLC_normal.jpg",
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/624648641337290752/AAxgruLC_normal.jpg",
+    "profile_banner_url": "https://pbs.twimg.com/profile_banners/253100472/1456619492",
+    "profile_link_color": "0084B4",
+    "profile_sidebar_border_color": "C0DEED",
+    "profile_sidebar_fill_color": "DDEEF6",
+    "profile_text_color": "333333",
+    "profile_use_background_image": true,
+    "has_extended_profile": true,
+    "default_profile": true,
+    "default_profile_image": false,
+    "following": false,
+    "follow_request_sent": false,
+    "notifications": false
+  },
+  "username": "Çağatay Çalı"
 }

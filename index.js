@@ -93,7 +93,6 @@ vorpal
       );
       console.log(table.toString());
     });
-    // callback();
   })
   .cancel(function () {  // TODO : fix override.
       nconf.save(function (err) {
@@ -129,15 +128,15 @@ vorpal
   .action(function(command, callback) {
     T.post('friendships/create', {screen_name:command}, function(err, data, response) {
       if (err) {
-        console.error(err.message);
+        console.error(err.message.underline.red);
       } else {
-        console.log('The request was sent');
+        console.log(emoji.emojify('Fly like a butterfly sting like a :bee:')); // postbox
       }
       callback();
       })
     });
 
-vorpal.command('dm', 'direct message')
+vorpal.command('dm', 'Send direct message')
   .action(function (args, callback) {
     var self = this;
 
@@ -145,12 +144,12 @@ vorpal.command('dm', 'direct message')
       {
         type: 'input',
         name: 'screenName',
-        message: 'screenName: '
+        message: emoji.emojify(':dart: Target:') // dart
       },
       {
         type: 'input',
         name: 'text',
-        message: 'Text: '
+        message: emoji.emojify(':speech_balloon: Content:') // speech_balloon
       }
     ], function (answers) {
       // You can use callbacks...
@@ -160,9 +159,9 @@ vorpal.command('dm', 'direct message')
       // Or promises!
       T.post('direct_messages/new', {screen_name:command.screenName, text: command.text}, function(err, data, response) {
         if (err) {
-          console.error(err.message);
+          console.error(err.message.underline.red);
         } else {
-          console.log('The message was sent');
+          console.log(emoji.emojify('Piyuuv :postbox:')); // postbox
         }
         callback();
         })
