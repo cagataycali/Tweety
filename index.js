@@ -118,6 +118,58 @@ vorpal
       })
     });
 
+
+vorpal
+  .mode('follow')
+  .delimiter('?>  ')
+  .init(function(args, callback){
+    console.log(' \t Write the screen_name you want to follow. \n \t To exit, type `exit`.');
+    callback();
+  })
+  .action(function(command, callback) {
+    T.post('friendships/create', {screen_name:command}, function(err, data, response) {
+      if (err) {
+        console.error(err.message);
+      } else {
+        console.log('The request was sent');
+      }
+      callback();
+      })
+    });
+
+vorpal.command('dm', 'direct message')
+  .action(function (args, callback) {
+    var self = this;
+
+    var promise = this.prompt([
+      {
+        type: 'input',
+        name: 'screenName',
+        message: 'screenName: '
+      },
+      {
+        type: 'input',
+        name: 'text',
+        message: 'Text: '
+      }
+    ], function (answers) {
+      // You can use callbacks...
+    });
+
+    promise.then(function(command) {
+      // Or promises!
+      T.post('direct_messages/new', {screen_name:command.screenName, text: command.text}, function(err, data, response) {
+        if (err) {
+          console.error(err.message);
+        } else {
+          console.log('The message was sent');
+        }
+        callback();
+        })
+
+    });
+  });
+
     // TODO : search
     // TODO : user followers ( who is follow me/other guy? )
     //
@@ -127,8 +179,6 @@ vorpal
     })
     */
     // TODO : img & video upload
-    // TODO : post direct message
-    // TODO : follow user by screen_name
     // TODO : handle events. ( Anybody message me? Follow me? Like my tweet ? Mentioned ? ) *
     // TODO : read inbox *
     // TODO : send mail *
