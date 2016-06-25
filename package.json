@@ -1,6 +1,6 @@
 {
   "name": "tweeties",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "CLI twitter search tool",
   "main": "index.js",
   "scripts": {
