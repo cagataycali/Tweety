@@ -11,7 +11,7 @@ var Table = require('cli-table');
 /*
   Load config file
 */
-nconf.use('file', { file: './config.json' });
+nconf.use('file', { file: 'config.json' });
 nconf.load();
 
 if(!nconf.get('username')) {
