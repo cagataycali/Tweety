@@ -170,6 +170,37 @@ vorpal.command('dm', 'direct message')
     });
   });
 
+  vorpal.command('stream-like', 'like if someone is in?')
+          .action(function (args, callback) {
+            var self = this;
+
+            var promise = this.prompt([
+              {
+                type: 'input',
+                name: 'target',
+                message: emoji.emojify(':dart: Target:') // dart
+              }
+            ], function (answers) {
+              // You can use callbacks...
+            });
+
+            promise.then(function(command) {
+
+                var stream = T.stream('statuses/filter', { track: command.target })
+                stream.on('tweet', function (tweet) {
+                  T.post('favorites/create', { id: tweet.id }, function(err, data, response) {
+                    if (err) {
+                      console.error(err.message.underline.red);
+                    } else {
+                      console.log(emoji.emojify('Piyuuv :postbox:')); // postbox
+                    }
+                    callback();
+                    })
+                });
+
+            });
+          });
+
     // TODO : search
     // TODO : user followers ( who is follow me/other guy? )
     //
