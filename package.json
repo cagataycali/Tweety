@@ -36,7 +36,7 @@
     "node-emoji": "^1.3.1",
     "prettiest": "^1.0.0",
     "progress": "^1.1.8",
-    "superagent": "^2.0.0",
+    "superagent": "^3.8.1",
     "twit": "^2.2.4",
     "twitter": "^1.3.0",
     "vorpal": "^1.11.2"
